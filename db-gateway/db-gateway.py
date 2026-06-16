@@ -426,8 +426,13 @@ def vector_search():
     query_text = data["query"]
 
     # ── Parametri pipeline ────────────────────────────────────────────────────
-    STAGE1_K                  = 1
-    TOP_ENDPOINTS_PER_SERVICE = 60
+    STAGE1_K                  = 7
+    # 6 = numero massimo di endpoint per servizio nel catalogo smart-city
+    # (GET list, GET/PUT/DELETE /{id}, POST, PUT /zone/...). Tenendoli tutti si
+    # evita che il reranker scarti il GET-list nelle query di lettura o
+    # l'endpoint di scrittura nelle query find-then-act, senza ricorrere a un
+    # boost euristico query-agnostico. Il token budget (5000) fa da guardia.
+    TOP_ENDPOINTS_PER_SERVICE = 6
     K_RRF                     = 60   # parametro canonico (Cormack et al., 2009)
 
     # ════════════════════════════════════════════════════════════════════════
@@ -673,7 +678,10 @@ def vector_search():
                 trimmed[k] = v
         return trimmed
 
-    max_tokens     = 5000
+    # Budget di token per l'intero payload di retrieval (misurato col tokenizer
+    # del reranker). Alimenta il prompt del Planner, che gira a num_ctx=16384:
+    #Configurabile via env per adattarlo all'hardware.
+    max_tokens     = int(os.environ.get("RETRIEVAL_TOKEN_BUDGET", "7000"))
     current_tokens = 0
     top_results    = []
     budget_log     = []  # (service_id, n_inseriti, n_totali, nomi_endpoint)

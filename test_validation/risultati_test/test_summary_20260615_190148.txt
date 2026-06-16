@@ -1,0 +1,29 @@
+
+========================================================================
+RIEPILOGO FINALE
+========================================================================
+Query eseguite: 100
+  ✅ CORRECT:     80  (80.0%)
+  🟡 PARTIAL:     16  (16.0%)
+  ❌ INCORRECT:    3  (3.0%)
+  ⚠️  ERROR:        1  (1.0%)
+
+Metriche endpoint L1 (micro):
+  TP=178  FP=3  FN=22
+  Micro F1=0.934   Macro F1=0.922
+
+Latenza: Media=65.6s  Mediana=65.4s  Max=90.0s
+
+Per categoria:
+  Categoria                Tot   OK  Part  Wrong  Err    Acc%
+  ------------------------------------------------------------
+  chaining                  19   11     7      1    0    58%
+  cross-service             57   46     8      2    1    81%
+  single-get                17   17     0      0    0   100%
+  single-post                5    5     0      0    0   100%
+  three-step                 2    1     1      0    0    50%
+
+Failure per layer (su 99 query valutate):
+  L2 Execution:    1  (1.0%)
+  L3 Chaining:     1  (1.0%)
+  L4 Schema:       1  (1.0%)

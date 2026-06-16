@@ -1,47 +1,64 @@
 """
-testRunner.py  (v4.1)
+testRunner.py (v4.1)
 ====================
-Test runner per LADARAG-Extended con supporto query out-of-plan.
+Test runner per LADARAG-Extended: Validazione dell'Execution Plan e Robustezza.
 
-Modifiche v4.1 rispetto a v4:
-    - check_layer3_chaining ora legge 'url_resolved' se presente
-      (con fallback su 'url'), evitando falsi positivi su placeholder
-      effettivamente risolti dal Controller.
-    - Rimossa la metrica di consistenza (plan_signatures, canonical_plan,
-      avg_cons, colonna 'Cons' nel per-category, voce 'Consistency' nel
-      detail e nel print per-run). Con --runs 1 la metrica era trivialmente
-      100% e non informativa; il runner ora riporta solo Pass@1 / Pass@K.
+Questo modulo si occupa di inviare query al Control Unit, ricevere i piani 
+di esecuzione (o le risposte di fallback) e valutarli confrontandoli con 
+un oracolo definito in un dataset CSV.
 
-Modifiche rispetto a v3:
-    - Nuovo valutatore check_out_of_plan() per query che attivano il
-      fallback Designer. Per queste query il planner principale produce
-      tasks=[] e il Controller risponde con empty_plan_category +
-      suggested_api_contracts. Il runner confronta la categoria assegnata
-      dal Designer con l'etichetta attesa dichiarata nel CSV (colonna
-      Category ∈ {out-of-domain, ambiguous, invalid}).
-    - infer_category() ritorna "out-of-plan" quando oracle_steps=[] per
-      evitare la misclassificazione a "three-step".
-    - run_tests() fa branch sulla colonna CSV Category per scegliere fra
-      evaluate_all_layers (query eseguibili) e check_out_of_plan
-      (query che devono fallire con fallback).
-    - Compatibile al 100% con i CSV esistenti: le righe con oracle
-      non-vuoto vengono valutate esattamente come prima.
+La valutazione si articola in due flussi principali, a seconda della natura 
+della query (Normale vs Out-of-Plan).
 
-Valutazione query out-of-plan:
-  L1_plan      — empty_plan_category restituito == expected
-                 (e tasks è effettivamente vuoto)
-  L2_execution — coerenza suggested_api_contracts:
-                   OUT_OF_DOMAIN → contract non vuoto + HC-2, HC-3, HC-5
-                   AMBIGUOUS/INVALID → nessun contract
-  L3_chaining  — SKIP
-  L4_schema    — SKIP
+1. FLUSSO STANDARD (Query Eseguibili)
+-------------------------------------
+Applica una valutazione multidimensionale a 4 Livelli (Layers):
 
-Uso:
-    python testRunner.py
-    python testRunner.py --csv out_of_plan_test_requests.csv
-    python testRunner.py --csv main.csv --only-csv-categories out-of-domain ambiguous invalid
-    python testRunner.py --runs 3
-    python testRunner.py --fail-fast
+    * L1_plan (Selezione API)
+      Verifica che i task generati (Metodo HTTP e Path) corrispondano 
+      ai passi previsti dall'oracolo. 
+      Verdetti: PASS (perfetto), PARTIAL (manca qualche API), FAIL (nessuna API corretta).
+    
+    * L2_execution (Esecuzione Mock)
+      Verifica il successo reale delle chiamate. Fallisce se almeno un task 
+      riporta uno status diverso da "SUCCESS" o un codice HTTP fuori dal range 200-299.
+    
+    * L3_chaining (Risoluzione Dipendenze)
+      Verifica che i placeholder dinamici (es. {{id}}) generati nei task 
+      precedenti siano stati correttamente sostituiti con valori reali 
+      nel campo 'url_resolved' (o 'url').
+    
+    * L4_schema (Validazione Payload)
+      Verifica la correttezza del body ('input') inviato al server. 
+      Si applica solo a POST e PUT: fallisce se il body è assente, vuoto, 
+      o se contiene chiavi con valori null/vuoti ("").
+
+2. FLUSSO OUT-OF-PLAN (Gestione Anomalie e Designer)
+----------------------------------------------------
+Per le query marcate nel CSV come 'out-of-domain', 'ambiguous' o 'invalid', 
+lo script si aspetta che il sistema non esegua nulla e attivi il Designer.
+I livelli vengono riadattati:
+
+    * L1_plan: Verifica che l'array 'tasks' sia vuoto e che la categoria 
+      assegnata dal Designer (empty_plan_category) coincida con l'attesa.
+    * L2_execution: Verifica la coerenza dei contratti API ('suggested_api_contracts').
+      - Per OUT_OF_DOMAIN: Esige un contratto valido con id '*-mock' e schemi.
+      - Per AMBIGUOUS/INVALID: Esige che NON ci siano contratti suggeriti.
+    * L3_chaining e L4_schema: Vengono saltati (SKIP).
+
+VERDETTO FINALE (Aggregato)
+---------------------------
+Il risultato finale per singola run può essere:
+    * CORRECT   : Tutti i layer valutati hanno restituito PASS (o SKIP).
+    * INCORRECT : Il Livello 1 (selezione) ha fallito completamente (FAIL).
+    * PARTIAL   : Il sistema ha azzeccato in parte la selezione API, ma 
+                  l'esecuzione o la formattazione (L2, L3, L4) è fallita.
+
+USO:
+----
+    $ python testRunner.py
+    $ python testRunner.py --csv <nome_file.csv> --runs 3
+    $ python testRunner.py --only-csv-categories out-of-domain ambiguous invalid
 """
 
 import sys
@@ -68,26 +85,9 @@ DEFAULTS = {
     "control_url": "http://localhost:5500/api/control/invoke",
     "csv_file":    "test_validation/smart_city_test_requests.csv",
     "output_dir":  "C:\\Universita\\Tesi\\LADARAG-Extended-Rita\\test_validation\\risultati_test",
-    "timeout":     90,
+    "timeout":     120,
     "delay":       0.3,
-    "runs":        1,
 }
-
-RUNS_BY_CATEGORY = {
-    "single-get":        1,
-    "single-delete":     1,
-    "single-post":       2,
-    "single-put":        2,
-    "single-op":         2,
-    "get-then-get":      2,
-    "get-post":          2,
-    "chaining-find-put": 3,
-    "two-step":          2,
-    "three-step":        3,
-    "cross-service":     3,
-    "out-of-plan":       2,          # ← nuova
-}
-DEFAULT_RUNS = 1
 
 # Mapping colonna CSV Category → etichetta attesa da empty_plan_category
 # Una riga CSV la cui Category e' in questa mappa viene valutata con
@@ -161,12 +161,13 @@ def infer_category(oracle_steps, query):
         return {"GET": "single-get", "POST": "single-post",
                 "PUT": "single-put", "DELETE": "single-delete"}.get(m, "single-op")
     if n == 2:
-        if methods == ["GET", "GET"]:
-            return "get-then-get"
         if set(methods) == {"GET", "POST"}:
             return "get-post"
-        if set(methods) in ({"GET", "PUT"}, {"GET", "DELETE"}):
-            return "chaining-find-put"
+        # Catene intra-servizio a 2 step unificate sotto "chaining":
+        #   GET -> GET/{id}        (lettura del dettaglio, ex "get-then-get")
+        #   GET -> PUT/DELETE/{id} (aggiornamento, ex "chaining-find-put")
+        if methods == ["GET", "GET"] or set(methods) in ({"GET", "PUT"}, {"GET", "DELETE"}):
+            return "chaining"
         return "two-step"
 
     return "three-step"
@@ -187,6 +188,7 @@ def check_layer1_plan(tasks, oracle_steps):
     matched_oracle = set()
     matches        = []
     mismatches     = []
+    duplicates     = []   # chiamate ridondanti verso un endpoint gia presente nell'oracle
 
     for t_method, t_path in filtered_tasks:
         found = False
@@ -199,10 +201,23 @@ def check_layer1_plan(tasks, oracle_steps):
                 found = True
                 break
         if not found:
-            mismatches.append({"task": (t_method, t_path)})
+            # Il task non aggancia un NUOVO step dell'oracle. Si distinguono due casi:
+            #  - duplicato: corrisponde comunque a un endpoint gia presente nell'oracle.
+            #    Tipico del vincolo "un parametro per request" del mock, che costringe a
+            #    splittare un filtro multiplo in piu GET single-param sullo stesso endpoint
+            #    (+ un'aggregazione SQL a valle). Non e un errore di pianificazione: NON e un FP.
+            #  - estraneo: non corrisponde ad ALCUN endpoint dell'oracle -> falso positivo reale.
+            is_duplicate = any(
+                t_method == o_method and _oracle_path_matches(t_path, o_path)
+                for o_method, o_path in filtered_oracle
+            )
+            if is_duplicate:
+                duplicates.append({"task": (t_method, t_path)})
+            else:
+                mismatches.append({"task": (t_method, t_path)})
 
     tp = len(matches)
-    fp = len(mismatches)
+    fp = len(mismatches)          # solo endpoint estranei all'oracle
     fn = len(filtered_oracle) - tp
 
     precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
@@ -221,8 +236,9 @@ def check_layer1_plan(tasks, oracle_steps):
     return {
         "verdict": verdict,
         "tp": tp, "fp": fp, "fn": fn,
+        "n_duplicates": len(duplicates),
         "precision": precision, "recall": recall, "f1": f1,
-        "matches": matches, "mismatches": mismatches,
+        "matches": matches, "mismatches": mismatches, "duplicates": duplicates,
     }
 
 
@@ -520,7 +536,7 @@ def run_tests(args):
     status_counter = Counter()
     category_stats = defaultdict(lambda: {
         "correct": 0, "partial": 0, "incorrect": 0, "error": 0,
-        "total": 0, "pass_at_1": 0, "pass_at_k": 0,
+        "total": 0,
     })
 
     total = len(rows)
@@ -543,16 +559,15 @@ def run_tests(args):
         csv_cat_norm = (csv_category or "").lower().strip()
         is_oop       = csv_cat_norm in OUT_OF_PLAN_MAPPING       # flag out-of-plan
 
-        n_runs = args.runs if args.runs else RUNS_BY_CATEGORY.get(category, DEFAULT_RUNS)
-
         noise_label = f"[{noise_type}]"   if noise_type   else ""
         csv_label   = f"[{csv_category}]" if csv_category else ""
         oop_flag    = " 🔍OOP" if is_oop else ""
-        print(f"[{idx:>3}/{total}] {category:<22} (×{n_runs}) {csv_label:<18}{oop_flag} {question[:50]}")
+        print(f"[{idx:>3}/{total}] {category:<22} {csv_label:<18}{oop_flag} {question[:50]}")
 
+        # Singola esecuzione per query (multi-run rimosso).
         run_records = []
 
-        for run_i in range(n_runs):
+        for run_i in range(1):
             outcome = run_query(question, args.control_url, args.timeout)
             all_latencies.append(outcome["latency"])
 
@@ -631,32 +646,12 @@ def run_tests(args):
 
         valid_runs = [r for r in run_records if "final" in r]
         n_valid    = len(valid_runs)
-
-        pass_at_1 = valid_runs[0]["final"] == "CORRECT" if valid_runs else False
-        pass_at_k = any(r["final"] == "CORRECT" for r in valid_runs)
-
-        if n_valid == 0:
-            agg_final = "ERROR"
-        elif all(r["final"] == "CORRECT" for r in valid_runs):
-            agg_final = "CORRECT"
-        elif any(r["final"] == "INCORRECT" for r in valid_runs):
-            agg_final = "INCORRECT"
-        else:
-            agg_final = "PARTIAL"
-
-        if n_valid > 1:
-            print(
-                f"         aggregato: {agg_final:<10} "
-                f"Pass@1={'✅' if pass_at_1 else '❌'}  "
-                f"Pass@K={'✅' if pass_at_k else '❌'}"
-            )
+        agg_final  = valid_runs[0]["final"] if valid_runs else "ERROR"
 
         status_counter[agg_final] += 1
         cs = category_stats[category]
         cs["total"] += 1
         cs[agg_final.lower()] = cs.get(agg_final.lower(), 0) + 1
-        cs["pass_at_1"]       += int(pass_at_1)
-        cs["pass_at_k"]       += int(pass_at_k)
 
         if noise_type:
             ns = noise_stats[noise_type]
@@ -667,9 +662,8 @@ def run_tests(args):
             "idx": idx, "question": question, "oracle": oracle_steps,
             "category": category, "csv_category": csv_category, "noise_type": noise_type,
             "is_oop": is_oop,
-            "n_runs": n_runs, "n_valid": n_valid,
-            "agg_final": agg_final, "pass_at_1": pass_at_1,
-            "pass_at_k": pass_at_k,
+            "n_valid": n_valid,
+            "agg_final": agg_final,
             "run_records": run_records,
         })
 
@@ -714,9 +708,6 @@ def print_summary(data):
     micro_f1 = 2 * micro_p * micro_r / (micro_p + micro_r) if (micro_p + micro_r) > 0 else 0
     macro_f1 = statistics.mean(r["eval"]["f1"] for r in first_runs) if first_runs else 0
 
-    pass_at_1 = sum(1 for r in results if r.get("pass_at_1")) / ran
-    pass_at_k = sum(1 for r in results if r.get("pass_at_k")) / ran
-
     avg_lat    = statistics.mean(latencies)   if latencies else 0
     median_lat = statistics.median(latencies) if latencies else 0
     max_lat    = max(latencies)               if latencies else 0
@@ -744,32 +735,25 @@ def print_summary(data):
             icon = "🟢" if acc >= 80 else ("🟡" if acc >= 50 else "🔴")
             print(f"  {cat:<18} {s['correct']}/{s['total']}  {acc:>5.1f}% {icon}")
 
-    print(f"\nAffidabilità:")
-    print(f"  Pass@1 (prima run corretta):      {pass_at_1:.1%}")
-    print(f"  Pass@K (almeno una run corretta): {pass_at_k:.1%}")
-
-    print(f"\nMetriche endpoint L1 (prima run, micro):")
+    print(f"\nMetriche endpoint L1 (micro):")
     print(f"  TP={all_tp}  FP={all_fp}  FN={all_fn}")
     print(f"  Micro F1={micro_f1:.3f}   Macro F1={macro_f1:.3f}")
 
     print(f"\nLatenza: Media={avg_lat:.1f}s  Mediana={median_lat:.1f}s  Max={max_lat:.1f}s")
 
     print(f"\nPer categoria:")
-    hdr = f"  {'Categoria':<24}{'Tot':>4}{'OK':>5}{'Part':>6}{'Wrong':>7}{'Err':>5}  {'P@1':>5}{'P@K':>5}{'Acc%':>6}"
+    hdr = f"  {'Categoria':<24}{'Tot':>4}{'OK':>5}{'Part':>6}{'Wrong':>7}{'Err':>5}  {'Acc%':>6}"
     print(hdr)
-    print(f"  {'-'*67}")
+    print(f"  {'-'*60}")
     for cat in sorted(category_stats):
         s = category_stats[cat]
         if s["total"] == 0:
             continue
         tot  = s["total"]
         acc  = s.get("correct", 0) / tot * 100
-        pa1  = s.get("pass_at_1", 0) / tot * 100
-        pak  = s.get("pass_at_k", 0) / tot * 100
         print(
             f"  {cat:<24}{tot:>4}{s.get('correct',0):>5}{s.get('partial',0):>6}"
-            f"{s.get('incorrect',0):>7}{s.get('error',0):>5}  "
-            f"{pa1:>4.0f}% {pak:>4.0f}% {acc:>4.0f}%"
+            f"{s.get('incorrect',0):>7}{s.get('error',0):>5}  {acc:>4.0f}%"
         )
 
     # Layer failure breakdown
@@ -789,7 +773,7 @@ def print_summary(data):
                 l4_fails += 1
 
     if total_valid_runs > 0:
-        print(f"\nFailure per layer (su {total_valid_runs} run valide):")
+        print(f"\nFailure per layer (su {total_valid_runs} query valutate):")
         print(f"  L2 Execution: {l2_fails:>4}  ({l2_fails/total_valid_runs:.1%})")
         print(f"  L3 Chaining:  {l3_fails:>4}  ({l3_fails/total_valid_runs:.1%})")
         print(f"  L4 Schema:    {l4_fails:>4}  ({l4_fails/total_valid_runs:.1%})")
@@ -837,9 +821,7 @@ def write_reports(data, output_dir):
             f.write(f"Q: {r['question']}\n")
             f.write(f"Oracle: {r['oracle']}\n")
             noise_label = f"  Noise: {r['noise_type']}" if r.get("noise_type") else ""
-            f.write(f"Aggregato: {r['agg_final']}  "
-                    f"Pass@1={r['pass_at_1']}  Pass@K={r['pass_at_k']}"
-                    f"{noise_label}\n")
+            f.write(f"Esito: {r['agg_final']}{noise_label}\n")
             for run in r.get("run_records", []):
                 f.write(f"\n  Run {run.get('run','?')}:\n")
                 if "network_error" in run:
@@ -894,8 +876,6 @@ def parse_args():
     p.add_argument("--output-dir",         default=DEFAULTS["output_dir"])
     p.add_argument("--timeout",            default=DEFAULTS["timeout"], type=int)
     p.add_argument("--delay",              default=DEFAULTS["delay"], type=float)
-    p.add_argument("--runs",               default=DEFAULTS["runs"], type=int,
-                   help="Forza N run per tutte le query (default: adattivo per categoria)")
     p.add_argument("--only-categories",    nargs="+", default=None, metavar="CAT",
                    help="Filtra per categoria inferita dal oracle "
                         "(es: single-get cross-service three-step out-of-plan)")

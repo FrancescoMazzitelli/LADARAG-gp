@@ -536,6 +536,9 @@ paths:
                     status: open
                     submittedAt: '2025-09-25T11:00:00Z'
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /citizen-report/{id}:
     get:
       description: Fetches the full details and current status of a specific citizen report by ticket ID.
@@ -571,6 +574,9 @@ paths:
                 mock: *id004
         '404':
           description: The specified report ID does not exist in the database.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Updates an existing citizen report. Typically used by city officials to update the ticket's resolution status.
       summary: Update citizen report by ID
@@ -620,6 +626,9 @@ paths:
                 mock: *id005
         '404':
           description: The specified report ID was not found.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Deletes a specific citizen report from the system.
       summary: Delete citizen report by ID
@@ -635,8 +644,16 @@ paths:
       responses:
         '204':
           description: The report was successfully deleted.
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: The specified report ID was not found.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Registers this microservice with the central discovery registry.

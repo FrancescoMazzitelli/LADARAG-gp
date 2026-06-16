@@ -566,6 +566,9 @@ paths:
                     status: out-of-service
                     lastUpdated: '2025-09-25T06:00:00Z'
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /vehicle/{id}:
     get:
       description: Retrieve real-time data for a specific public transport vehicle by ID.
@@ -602,6 +605,9 @@ paths:
                 mock: *id004
         '404':
           description: Vehicle not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the real-time data of a specific public transport vehicle by ID.
       summary: Update vehicle by ID
@@ -653,6 +659,9 @@ paths:
                 mock: *id005
         '404':
           description: Vehicle not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Remove a specific public transport vehicle from the registry.
       summary: Delete vehicle by ID
@@ -668,8 +677,16 @@ paths:
       responses:
         '204':
           description: Deleted successfully
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Vehicle not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /vehicle/zone/{zoneId}/service-status:
     put:
       description: Dynamically halt, suspend, or resume public transport services across an entire zone. Critical for emergency response (e.g., suspending bus service in Z-CENTRO due to severe flooding or traffic gridlock).
@@ -716,6 +733,9 @@ paths:
                 success: &id006
                   value: Zone service status updated
                 mock: *id006
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this service to the discovery system (Consul).

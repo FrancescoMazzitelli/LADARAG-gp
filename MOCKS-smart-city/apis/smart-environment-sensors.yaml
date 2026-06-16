@@ -692,6 +692,9 @@ paths:
                     lastUpdated: '2025-09-25T11:15:00Z'
                     status: active
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /sensor/{id}:
     get:
       description: Retrieve the exact real-time reading and configuration of a single sensor by ID.
@@ -731,6 +734,9 @@ paths:
                 mock: *id004
         '404':
           description: Sensor not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the configuration or latest reading of a specific environmental sensor by ID.
       summary: Update sensor by ID
@@ -788,6 +794,9 @@ paths:
                 mock: *id005
         '404':
           description: Sensor not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Remove a specific environmental sensor from the city monitoring network by its ID.
       summary: Delete sensor by ID
@@ -803,8 +812,16 @@ paths:
       responses:
         '204':
           description: Sensor successfully deleted
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Sensor not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

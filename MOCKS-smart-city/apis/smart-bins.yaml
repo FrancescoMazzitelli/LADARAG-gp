@@ -539,6 +539,9 @@ paths:
                     sensorBattery: 100
                     status: normal
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /bin/{id}:
     get:
       description: Retrieve the current status of a specific waste bin by ID.
@@ -575,6 +578,9 @@ paths:
                 mock: *id004
         '404':
           description: Bin not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the status of a specific smart waste bin by ID.
       summary: Update bin details by ID
@@ -626,6 +632,9 @@ paths:
                 mock: *id005
         '404':
           description: Bin not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Permanently remove a specific waste bin from the city registry.
       summary: Delete bin by ID
@@ -641,8 +650,16 @@ paths:
       responses:
         '204':
           description: Bin successfully deleted
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Bin not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

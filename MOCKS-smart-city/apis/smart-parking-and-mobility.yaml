@@ -695,6 +695,9 @@ paths:
                     status: free
                     lastUpdated: '2025-09-25T11:00:00Z'
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /parking-spot/{id}:
     get:
       description: Retrieve the current availability and details of a specific parking spot by ID.
@@ -730,6 +733,9 @@ paths:
                 mock: *id004
         '404':
           description: Parking spot not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the status or configuration of a specific parking spot by ID.
       summary: Update parking spot by ID
@@ -779,6 +785,9 @@ paths:
                 mock: *id005
         '404':
           description: Parking spot not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Remove a specific parking spot from the city mobility registry.
       summary: Delete parking spot by ID
@@ -794,8 +803,16 @@ paths:
       responses:
         '204':
           description: Deleted successfully
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Parking spot not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /parking-spot/zone/{zoneId}/pricing:
     put:
       description: Dynamically adjust the hourly parking rate for all spots in a specific zone. Useful for reacting to traffic congestion or pollution alerts by incentivizing or discouraging parking in a given area.
@@ -843,6 +860,9 @@ paths:
                 success: &id006
                   value: Zone pricing updated
                 mock: *id006
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this service to the discovery system (Consul).

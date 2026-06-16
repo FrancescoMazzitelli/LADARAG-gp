@@ -1,0 +1,1301 @@
+--- Query #1 [single-get] [single-goal] ---
+Q: Are there any rubbish bins in the city that urgently need to be emptied?
+Oracle: [('GET', '/bin')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 53.86s
+
+--- Query #2 [single-get] [single-goal] ---
+Q: What tourist spots can I visit in the city today?
+Oracle: [('GET', '/attraction')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 54.63s
+
+--- Query #3 [single-get] [single-goal] ---
+Q: I have an electric car. Where can I charge it right now?
+Oracle: [('GET', '/charging-station')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 57.20s
+
+--- Query #4 [chaining] [single-goal] ---
+Q: Are there any street lights in the city that are currently switched off or not working?
+Oracle: [('GET', '/light'), ('GET', '/light')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.44s
+
+--- Query #5 [single-get] [single-goal] ---
+Q: Which emergency vehicles are currently available to respond?
+Oracle: [('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 59.52s
+
+--- Query #6 [single-get] [single-goal] ---
+Q: Are any public buses running late right now?
+Oracle: [('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 54.13s
+
+--- Query #7 [single-get] [single-goal] ---
+Q: Is the air quality around the city acceptable right now?
+Oracle: [('GET', '/sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 54.16s
+
+--- Query #8 [single-get] [single-goal] ---
+Q: Where can I park my car in the city right now?
+Oracle: [('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.40s
+
+--- Query #9 [single-get] [single-goal] ---
+Q: Is the city centre busy with traffic right now?
+Oracle: [('GET', '/traffic-sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.58s
+
+--- Query #10 [single-get] [single-goal] ---
+Q: I use a wheelchair. Which attractions in the city are accessible to me today?
+Oracle: [('GET', '/attraction')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 55.07s
+
+--- Query #11 [cross-service] [two-service] ---
+Q: I want to visit something interesting today. Is there somewhere I can also find parking nearby?
+Oracle: [('GET', '/attraction'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 66.06s
+
+--- Query #12 [cross-service] [two-service] ---
+Q: I want to go for a run outside. Are there parts of the city with little traffic and clean air?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 67.59s
+
+--- Query #13 [cross-service] [two-service] ---
+Q: I need to charge my electric car but I'd rather avoid congested streets. Where should I head?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/charging-station'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 71.37s
+
+--- Query #14 [cross-service] [two-service] ---
+Q: I've heard some parts of the city have bad traffic right now. Are there tourist spots in a less congested area?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/attraction')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.92s
+
+--- Query #15 [cross-service] [two-service] ---
+Q: There seems to be a big traffic jam somewhere. Are emergency services available in that area?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.55s
+
+--- Query #16 [cross-service] [two-service] ---
+Q: I want to spend the afternoon somewhere the air is clean. Is there anything worth visiting there?
+Oracle: [('GET', '/sensor'), ('GET', '/attraction'), ('SQL', ''), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.52s
+
+--- Query #17 [cross-service] [two-service] ---
+Q: I'm a city worker doing rounds. Which areas have both overflowing bins and heavy traffic at the same time?
+Oracle: [('GET', '/bin'), ('GET', '/traffic-sensor'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 74.67s
+
+--- Query #18 [cross-service] [two-service] ---
+Q: I want to drive into the city without getting stuck in traffic. Where are there still free parking spots?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/parking-spot')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 67.05s
+
+--- Query #19 [cross-service] [two-service] ---
+Q: I've heard the air quality is bad in some parts of the city. Are there free parking spots somewhere the air is clean?
+Oracle: [('GET', '/sensor'), ('GET', '/parking-spot'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 67.77s
+
+--- Query #20 [cross-service] [two-service] ---
+Q: The bus I take to work is running late. Is there a lot of traffic along its usual route?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/vehicle'), ('SQL', '')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 56.11s
+
+--- Query #21 [cross-service] [two-service] ---
+Q: I want to take my kids somewhere nice today. Are there things to visit in an area where the air is clean?
+Oracle: [('GET', '/sensor'), ('GET', '/attraction'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.58s
+
+--- Query #22 [cross-service] [two-service] ---
+Q: Which parts of the city have both street lights switched off and bins that haven't been emptied?
+Oracle: [('GET', '/light'), ('GET', '/bin'), ('GET', '/bin'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 66.30s
+
+--- Query #23 [cross-service] [two-service] ---
+Q: I'm nearly out of battery and I'd like to visit something. Is there a charger close to any open attraction?
+Oracle: [('GET', '/attraction'), ('GET', '/charging-station'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 62.61s
+
+--- Query #24 [cross-service] [two-service] ---
+Q: Are there buildings in parts of the city where the environment seems unhealthy right now?
+Oracle: [('GET', '/sensor'), ('GET', '/building')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 71.50s
+
+--- Query #25 [cross-service] [three-service] ---
+Q: I want to spend a nice afternoon out. Where in the city has clean air, something interesting to see, and parking available?
+Oracle: [('GET', '/sensor'), ('GET', '/attraction'), ('GET', '/parking-spot'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 74.33s
+
+--- Query #26 [cross-service] [three-service] ---
+Q: I'm driving in for a bit of sightseeing. Where should I go to avoid heavy traffic, find something to visit, and park easily?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/attraction'), ('GET', '/parking-spot'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.60s
+
+--- Query #27 [cross-service] [three-service] ---
+Q: I'm in a wheelchair and want to go out today. I need somewhere accessible, with decent air quality and a parking spot.
+Oracle: [('GET', '/sensor'), ('GET', '/attraction'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.86s
+
+--- Query #28 [cross-service] [three-service] ---
+Q: Which parts of the city are in the worst shape right now, with street lights off, full bins, and traffic problems all at once?
+Oracle: [('GET', '/light'), ('GET', '/bin'), ('GET', '/traffic-sensor'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 72.88s
+
+--- Query #29 [cross-service] [three-service] ---
+Q: The city feels chaotic today. Where is there heavy congestion, delayed public transport, and few emergency units available?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/vehicle'), ('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 73.78s
+
+--- Query #30 [cross-service] [three-service] ---
+Q: I want somewhere funny to go, with something to do and a place to park. What would you suggest?
+Oracle: [('GET', '/attraction'), ('GET', '/parking-spot'), ('SQL', '')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 74.90s
+
+--- Query #31 [single-get] [single-goal] ---
+Q: Which buildings in the city are consuming the most energy right now?
+Oracle: [('GET', '/building')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 62.08s
+
+--- Query #32 [single-get] [single-goal] ---
+Q: Are there any open citizen complaints that still need to be handled?
+Oracle: [('GET', '/citizen-report')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 61.80s
+
+--- Query #33 [single-get] [single-goal] ---
+Q: I need a fast charger that is free at the moment. Where is one?
+Oracle: [('GET', '/charging-station')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 59.43s
+
+--- Query #34 [single-get] [single-goal] ---
+Q: Which fire engines are on duty in the city today?
+Oracle: [('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.13s
+
+--- Query #35 [single-get] [single-goal] ---
+Q: Are any environmental sensors currently raising an alert?
+Oracle: [('GET', '/sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 61.38s
+
+--- Query #36 [single-get] [single-goal] ---
+Q: Are there any accessible parking spaces reserved for disabled drivers available now?
+Oracle: [('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 66.21s
+
+--- Query #37 [single-get] [single-goal] ---
+Q: Which trams are currently in service across the city?
+Oracle: [('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.46s
+
+--- Query #38 [single-get] [single-goal] ---
+Q: Has any road incident been detected by the traffic sensors right now?
+Oracle: [('GET', '/traffic-sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.14s
+
+--- Query #39 [chaining] [chaining] ---
+Q: Show me the full details of the bin that is currently overflowing.
+Oracle: [('GET', '/bin'), ('GET', '/bin/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 56.32s
+
+--- Query #40 [chaining] [chaining] ---
+Q: Give me the complete energy profile of the first healthcare building in the city.
+Oracle: [('GET', '/building'), ('GET', '/building/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 70.26s
+
+--- Query #41 [chaining] [chaining] ---
+Q: Tell me everything about the first charging station that is both available and fast.
+Oracle: [('GET', '/charging-station'), ('GET', '/charging-station/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.48s
+
+--- Query #42 [chaining] [chaining] ---
+Q: Open the first open citizen report and show me its full description.
+Oracle: [('GET', '/citizen-report'), ('GET', '/citizen-report/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 59.83s
+
+--- Query #43 [chaining] [chaining] ---
+Q: Show me the full details of the first medical unit, including its crew and vehicle code.
+Oracle: [('GET', '/emergency-unit'), ('GET', '/emergency-unit/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.80s
+
+--- Query #44 [chaining] [chaining] ---
+Q: Show me the readings of the first sensor with an active alert.
+Oracle: [('GET', '/sensor'), ('GET', '/sensor/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 57.74s
+
+--- Query #45 [chaining] [chaining] ---
+Q: Find the first electric parking spot and tell me its exact location and hourly price.
+Oracle: [('GET', '/parking-spot'), ('GET', '/parking-spot/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.10s
+
+--- Query #46 [chaining] [chaining] ---
+Q: Show me the details of the first bus carrying more than 50 passengers, including its route.
+Oracle: [('GET', '/vehicle'), ('GET', '/vehicle/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 59.75s
+
+--- Query #47 [chaining] [chaining] ---
+Q: Pick the first attraction in the list and give me its opening hours and ticket price.
+Oracle: [('GET', '/attraction'), ('GET', '/attraction/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 61.64s
+
+--- Query #48 [chaining] [chaining] ---
+Q: Show me the detailed congestion data for the first road sensor that has detected an incident.
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/traffic-sensor/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 62.66s
+
+--- Query #49 [chaining] [find-then-update] ---
+Q: A citizen report has been handled. Mark the first open report as resolved.
+Oracle: [('GET', '/citizen-report'), ('PUT', '/citizen-report/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.16s
+
+--- Query #50 [chaining] [find-then-update] ---
+Q: One street light is malfunctioning. Switch it back on.
+Oracle: [('GET', '/light'), ('PUT', '/light/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 62.57s
+
+--- Query #51 [chaining] [find-then-update] ---
+Q: Take the faulty charging station offline for maintenance.
+Oracle: [('GET', '/charging-station'), ('PUT', '/charging-station/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.55s
+
+--- Query #52 [chaining] [find-then-update] ---
+Q: Reassign an available emergency unit to standby status.
+Oracle: [('GET', '/emergency-unit'), ('PUT', '/emergency-unit/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: FAIL
+      - update_unit_status: campi vuoti/null nel body: ['dispatchTime', 'incidentId']
+    Latency: 62.75s
+
+--- Query #53 [chaining] [find-then-update] ---
+Q: The overflowing bin has just been emptied. Update its fill level.
+Oracle: [('GET', '/bin'), ('PUT', '/bin/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 61.41s
+
+--- Query #54 [chaining] [find-then-update] ---
+Q: Temporarily close the attraction that has the longest waiting time.
+Oracle: [('GET', '/attraction'), ('PUT', '/attraction/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.84s
+
+--- Query #55 [chaining] [find-then-update] ---
+Q: A sensor has run out of battery and is offline. Remove it from the system.
+Oracle: [('GET', '/sensor'), ('DELETE', '/sensor/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 61.28s
+
+--- Query #56 [chaining] [find-then-update] ---
+Q: Mark the parking spot that just got taken as no longer available.
+Oracle: [('GET', '/parking-spot'), ('PUT', '/parking-spot/{id}')]
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=0 FN=2 F1=0.000
+    L1_plan: FAIL
+    L2_execution: SKIP
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 63.65s
+
+--- Query #57 [cross-service] [zone-action] ---
+Q: There is an area with dangerous air quality then lower the speed limit across that zone.
+Oracle: [('GET', '/sensor'), ('PUT', '/traffic-sensor/zone/{zoneId}/speed-limit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.93s
+
+--- Query #58 [cross-service] [zone-action] ---
+Q: Pollution is high in area of the city. Raise parking prices there to discourage driving.
+Oracle: [('GET', '/sensor'), ('PUT', '/parking-spot/zone/{zoneId}/pricing')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.33s
+
+--- Query #59 [cross-service] [zone-action] ---
+Q: Street lighting should be increased in the zone where a serious road incident has occurred.
+Oracle: [('GET', '/traffic-sensor'), ('PUT', '/light/zone/{zoneId}/brightness')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 66.95s
+
+--- Query #60 [cross-service] [zone-action] ---
+Q: Following a major incident all available emergency units must be dispatched to the area.
+Oracle: [('GET', '/traffic-sensor'), ('PUT', '/emergency-unit/zone/{zoneId}/status')]
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=1 FN=2 F1=0.000
+    L1_plan: FAIL
+      - {'task': ('GET', '/rest/Smart+Emergency+Services+API/1.0/emergency-unit')}
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 58.23s
+
+--- Query #61 [cross-service] [zone-action] ---
+Q: Due to severe traffic gridlock public the transit services in the area must be suspended.
+Oracle: [('GET', '/traffic-sensor'), ('PUT', '/vehicle/zone/{zoneId}/service-status')]
+Esito: ERROR
+
+  Run ?:
+    NETWORK ERROR: Timeout dopo 90s
+
+--- Query #62 [cross-service] [zone-action] ---
+Q: A security threat was reported in an area. Close all attractions in that zone.
+Oracle: [('GET', '/citizen-report'), ('PUT', '/attraction/zone/{zoneId}/status')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=1 FN=1 F1=0.500
+    L1_plan: PARTIAL
+      - {'task': ('PUT', '/rest/Smart+Tourist+Attractions+API/1.0/attraction/zone/{{get_security_reports[')}
+    L2_execution: FAIL
+      - close_attractions: ERROR HTTP 400
+    L3_chaining: FAIL
+      - close_attractions: segmento vuoto nell'URL (placeholder risolto a '')
+    L4_schema: PASS
+    Latency: 66.84s
+
+--- Query #63 [cross-service] [zone-action] ---
+Q: A severe weather alert is active in one zone. Mark its attractions as temporarily closed.
+Oracle: [('GET', '/sensor'), ('PUT', '/attraction/zone/{zoneId}/status')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 68.07s
+
+--- Query #64 [cross-service] [zone-action] ---
+Q: Fog has been detected in an area. Reduce the speed limit across that zone.
+Oracle: [('GET', '/sensor'), ('PUT', '/traffic-sensor/zone/{zoneId}/speed-limit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.42s
+
+--- Query #65 [cross-service] [two-service] ---
+Q: I drive an electric car to work. Which buildings have high energy use and a charger nearby?
+Oracle: [('GET', '/building'), ('GET', '/charging-station')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 76.71s
+
+--- Query #66 [cross-service] [two-service] ---
+Q: People keep reporting waste problems. Are there overflowing bins where those reports come from?
+Oracle: [('GET', '/citizen-report'), ('GET', '/bin')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 71.69s
+
+--- Query #67 [cross-service] [two-service] ---
+Q: Residents complained about lighting. Are the street lights actually off in those areas?
+Oracle: [('GET', '/citizen-report'), ('GET', '/light')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 58.47s
+
+--- Query #68 [cross-service] [two-service] ---
+Q: There are complaints about road damage. Do the traffic sensors confirm problems there?
+Oracle: [('GET', '/citizen-report'), ('GET', '/traffic-sensor')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=1 FP=0 FN=1 F1=0.667
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 70.98s
+
+--- Query #69 [cross-service] [two-service] ---
+Q: A sensor is flagging a gas alert. Are there emergency units available in that area?
+Oracle: [('GET', '/sensor'), ('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 67.19s
+
+--- Query #70 [cross-service] [two-service] ---
+Q: I'm heading to a busy office building. Is there parking available near it?
+Oracle: [('GET', '/building'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 67.32s
+
+--- Query #71 [cross-service] [two-service] ---
+Q: I want to park and ride into town. Where can I park near a bus that's running?
+Oracle: [('GET', '/parking-spot'), ('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 68.65s
+
+--- Query #72 [cross-service] [two-service] ---
+Q: I need to charge my car and then park it. Where can I do both close together?
+Oracle: [('GET', '/charging-station'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.77s
+
+--- Query #73 [cross-service] [two-service] ---
+Q: I want to reach an attraction by public transport. Which open attractions have a bus nearby?
+Oracle: [('GET', '/attraction'), ('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 71.93s
+
+--- Query #74 [cross-service] [two-service] ---
+Q: Which busy buildings are in areas where the bins are also overflowing?
+Oracle: [('GET', '/building'), ('GET', '/bin')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.76s
+
+--- Query #75 [cross-service] [two-service] ---
+Q: It's getting dark. Are there areas with both broken street lights and heavy traffic?
+Oracle: [('GET', '/light'), ('GET', '/traffic-sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 69.76s
+
+--- Query #76 [cross-service] [two-service] ---
+Q: There may be an evacuation. Which crowded buildings have emergency units nearby?
+Oracle: [('GET', '/building'), ('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.60s
+
+--- Query #77 [cross-service] [two-service] ---
+Q: I want clean air on my commute. Which bus routes pass through low-pollution areas?
+Oracle: [('GET', '/sensor'), ('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 73.47s
+
+--- Query #78 [cross-service] [two-service] ---
+Q: Several emergencies are reported. Are there citizen reports describing what happened there?
+Oracle: [('GET', '/citizen-report'), ('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=2 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.92s
+
+--- Query #79 [cross-service] [three-service] ---
+Q: I commute by electric car. Where is the air clean, with a charger and a parking spot?
+Oracle: [('GET', '/sensor'), ('GET', '/charging-station'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 74.90s
+
+--- Query #80 [cross-service] [three-service] ---
+Q: Residents reported problems. Which areas have complaints, overflowing bins and broken lights at once?
+Oracle: [('GET', '/citizen-report'), ('GET', '/bin'), ('GET', '/light')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.97s
+
+--- Query #81 [cross-service] [three-service] ---
+Q: A serious incident happened. Where is there congestion, citizen reports and available emergency units?
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/citizen-report'), ('GET', '/emergency-unit')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 64.59s
+
+--- Query #82 [cross-service] [three-service] ---
+Q: I'm a tourist with no car. Where can I find a bus, parking and something open to visit?
+Oracle: [('GET', '/vehicle'), ('GET', '/parking-spot'), ('GET', '/attraction')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.18s
+
+--- Query #83 [cross-service] [three-service] ---
+Q: I want a green commute. Where is the air clean, traffic light and a bus running?
+Oracle: [('GET', '/sensor'), ('GET', '/traffic-sensor'), ('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 84.69s
+
+--- Query #84 [cross-service] [three-service] ---
+Q: I'm an EV commuter. Which office areas have a charger and free parking nearby?
+Oracle: [('GET', '/building'), ('GET', '/charging-station'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 63.73s
+
+--- Query #85 [cross-service] [three-service] ---
+Q: Is any area unsafe tonight, with lights off, heavy traffic and few emergency units?
+Oracle: [('GET', '/light'), ('GET', '/traffic-sensor'), ('GET', '/emergency-unit')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=2 FP=1 FN=1 F1=0.667
+    L1_plan: PARTIAL
+      - {'task': ('GET', '/rest/Smart+Citizens+Reports+and+Ticketing+API/1.0/citizen-report')}
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 71.50s
+
+--- Query #86 [cross-service] [three-service] ---
+Q: I want an eco-friendly day out. Where is the air clean, an attraction open and a bus available?
+Oracle: [('GET', '/attraction'), ('GET', '/sensor'), ('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 75.57s
+
+--- Query #87 [cross-service] [three-service] ---
+Q: I'm a maintenance worker. Which zones have full bins, open complaints and traffic issues together?
+Oracle: [('GET', '/bin'), ('GET', '/citizen-report'), ('GET', '/traffic-sensor')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 65.49s
+
+--- Query #88 [cross-service] [three-service] ---
+Q: I want a clean EV stop. Where is a free charger, good air quality and an available parking spot?
+Oracle: [('GET', '/charging-station'), ('GET', '/sensor'), ('GET', '/parking-spot')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 70.60s
+
+--- Query #89 [cross-service] [multi-service] ---
+Q: Plan me a perfect afternoon: good air quality, an open attraction, parking and a bus nearby.
+Oracle: [('GET', '/sensor'), ('GET', '/attraction'), ('GET', '/parking-spot'), ('GET', '/vehicle')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=4 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 75.74s
+
+--- Query #90 [cross-service] [chaining-join] ---
+Q: Find where a road incident is, see which emergency unit is free there, and show me its details.
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/emergency-unit'), ('GET', '/emergency-unit/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=2 FP=0 FN=1 F1=0.800
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 58.44s
+
+--- Query #91 [cross-service] [multi-action] ---
+Q: Since the air quality in that area has dropped sharply from a pollution spike, we should lower the speed limit and raise parking prices.
+Oracle: [('GET', '/sensor'), ('PUT', '/traffic-sensor/zone/{zoneId}/speed-limit'), ('PUT', '/parking-spot/zone/{zoneId}/pricing')]
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=0 FN=3 F1=0.000
+    L1_plan: FAIL
+    L2_execution: SKIP
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 71.75s
+
+--- Query #92 [cross-service] [chaining-join] ---
+Q: Inspect the most congested zone, find a free emergency unit there and dispatch it.
+Oracle: [('GET', '/traffic-sensor'), ('GET', '/emergency-unit'), ('PUT', '/emergency-unit/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 76.00s
+
+--- Query #93 [three-step] [chaining] ---
+Q: Find the building using the most energy, inspect it and flag it for an energy audit.
+Oracle: [('GET', '/building'), ('GET', '/building/{id}'), ('PUT', '/building/{id}')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=2 FP=0 FN=1 F1=0.800
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 61.84s
+
+--- Query #94 [cross-service] [chaining-join] ---
+Q: Since the bus is experiencing continuous delays we need to locate the gridlock on its route and suspend service in that specific area.
+Oracle: [('GET', '/vehicle'), ('GET', '/traffic-sensor'), ('PUT', '/vehicle/zone/{zoneId}/service-status')]
+Esito: PARTIAL
+
+  Run 1:
+    Final: PARTIAL  TP=2 FP=0 FN=1 F1=0.800
+    L1_plan: PARTIAL
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 63.61s
+
+--- Query #95 [three-step] [chaining] ---
+Q: Triage the oldest open citizen report: read its full details and mark it as in progress.
+Oracle: [('GET', '/citizen-report'), ('GET', '/citizen-report/{id}'), ('PUT', '/citizen-report/{id}')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=3 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 68.39s
+
+--- Query #96 [single-post] [create] ---
+Q: My name is Marco Rossi and I'm reporting this now: the street light on Corso Garibaldi in the city centre has been broken for days. Please open a new report.
+Oracle: [('POST', '/citizen-report')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 57.30s
+
+--- Query #97 [single-post] [create] ---
+Q: This is Giulia Bianchi. Right now there's a large pile of illegally dumped rubbish next to Piazza Risorgimento in the north of the city, and I'd like to file a new complaint about it.
+Oracle: [('POST', '/citizen-report')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.50s
+
+--- Query #98 [single-post] [create] ---
+Q: I'm Luca Verdi and I want to open a report today about a deep pothole on Via Appia Antica in the southern district that keeps damaging cars.
+Oracle: [('POST', '/citizen-report')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 60.43s
+
+--- Query #99 [single-post] [create] ---
+Q: My name is Anna Esposito. I'm reporting an act of vandalism I just witnessed at the bus terminal in the east of the city, and I want it logged as a new safety report.
+Oracle: [('POST', '/citizen-report')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 59.03s
+
+--- Query #100 [single-post] [create] ---
+Q: This is Paolo Neri. There's a persistent foul smell, probably a sewage leak, on Viale dei Rettori in the city centre right now, and I'd like to submit a new environmental complaint.
+Oracle: [('POST', '/citizen-report')]
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: PASS
+    L4_schema: PASS
+    Latency: 58.52s
+

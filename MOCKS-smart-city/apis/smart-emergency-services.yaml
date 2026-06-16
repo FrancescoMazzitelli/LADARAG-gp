@@ -646,6 +646,9 @@ paths:
                     crewCount: 4
                     vehicleCode: POL-BN-03
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /emergency-unit/{id}:
     get:
       description: Retrieve full details of a specific emergency unit by ID.
@@ -683,6 +686,9 @@ paths:
                 mock: *id004
         '404':
           description: Emergency unit not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the operational status of a specific emergency unit by ID.
       summary: Update emergency unit by ID
@@ -736,6 +742,9 @@ paths:
                 mock: *id005
         '404':
           description: Emergency unit not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Permanently remove a specific emergency unit from the city registry.
       summary: Delete emergency unit by ID
@@ -751,8 +760,16 @@ paths:
       responses:
         '204':
           description: Emergency unit deleted
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Emergency unit not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /emergency-unit/zone/{zoneId}/status:
     put:
       description: Trigger a coordinated status update for all emergency units operating in a specific zone. Useful for city-wide emergency protocols such as placing all units in a zone on alert, or releasing them after an incident is resolved.
@@ -802,6 +819,9 @@ paths:
                 success: &id006
                   value: Zone emergency status updated
                 mock: *id006
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

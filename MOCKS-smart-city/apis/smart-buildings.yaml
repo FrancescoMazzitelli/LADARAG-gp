@@ -651,6 +651,9 @@ paths:
                     co2Emissions: 20.0
                     status: operational
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /building/{id}:
     get:
       description: Retrieve full details of a specific building by ID.
@@ -689,6 +692,9 @@ paths:
                 mock: *id004
         '404':
           description: Building not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the data of a specific building by ID.
       summary: Update building details by ID
@@ -744,6 +750,9 @@ paths:
                 mock: *id005
         '404':
           description: Building not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Permanently remove a specific building from the city registry.
       summary: Delete building by ID
@@ -759,8 +768,16 @@ paths:
       responses:
         '204':
           description: Building deleted
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Building not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

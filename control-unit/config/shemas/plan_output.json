@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "reasoning": {
+      "type": "string"
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_name": {
+            "type": "string"
+          },
+          "service_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "DELETE",
+              "SQL"
+            ]
+          },
+          "input": {
+            "type": [
+              "string",
+              "object",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "task_name",
+          "service_id",
+          "url",
+          "operation",
+          "input"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "tasks"
+  ],
+  "additionalProperties": false
+}

@@ -378,6 +378,9 @@ paths:
                     energyConsumption: 1.35
                     smartEnabled: true
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /light/{id}:
     get:
       description: Fetches real-time telemetry for a specific street light by ID.
@@ -412,6 +415,9 @@ paths:
                 mock: *id004
         '404':
           description: The specified smart light ID does not exist.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Updates the configuration or status of a specific smart light.
       summary: Update smart light by ID
@@ -459,6 +465,9 @@ paths:
                 mock: *id005
         '404':
           description: The specified smart light ID was not found.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Permanently removes a smart light pole from the city's infrastructure registry.
       summary: Delete smart light by ID
@@ -474,8 +483,16 @@ paths:
       responses:
         '204':
           description: The smart light was successfully deleted.
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: The specified smart light ID was not found.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /light/zone/{zoneId}/brightness:
     put:
       description: Dynamically adjust the brightness level for all smart street lights within a specific zone. Useful for reacting to emergencies, traffic incidents, or energy-saving schedules.
@@ -522,6 +539,9 @@ paths:
                 success: &id006
                   value: Zone brightness updated
                 mock: *id006
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Registers this microservice with the central discovery system (Consul).

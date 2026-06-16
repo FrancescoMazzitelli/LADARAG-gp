@@ -1,0 +1,319 @@
+[
+  {
+    "question_index": 1,
+    "run": 1,
+    "question": "Where can I borrow a Roman history novel at the city library?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 2,
+    "run": 1,
+    "question": "Which pharmacies are open right now near the historic centre?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find open pharmacies near historic centre | MAP: smart-tourist-attractions-mock / GET /attraction | CHAIN: none | COMBINE: single task | FILTER: status=open, zoneId=Z-CENTRO (historic centre), category=museum (closest proxy for pharmacy not found) | VALIDATE: ✗ No 'pharmacy' category in catalog; no service provides pharmacy data. The catalog only lists tourist attractions (archaeological, museum, church, palace, park, monument, theatre, other). No service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 3,
+    "run": 1,
+    "question": "Find me a hotel room under 100 euro for tonight",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 4,
+    "run": 1,
+    "question": "Where can I get a pizza near the Arco di Traiano right now?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find Arco di Traiano location/zone, find pizza places (restaurants) in that zone | MAP: smart-tourist-attractions-mock / GET /attraction (name filter) + smart-restaurants-mock / GET /restaurant (zone filter) | CHAIN: get_restaurants?zoneId <- get_attraction.name=='Arco di Traiano' | [0].zoneId | COMBINE: chain: get_restaurants consumes get_attraction via JMESPath | FILTER: attraction name match via JMESPath; restaurant zoneId via param | VALIDATE: ✗ No smart-restaurants-mock service in catalog. No service provides restaurant or food data. Cannot satisfy request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 5,
+    "run": 1,
+    "question": "Is there any live music concert tonight in Benevento?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: live music concerts in Benevento | MAP: no service in catalog provides concert or event data (Spotify is for personal playback, not public events; other services are for city infrastructure) | CHAIN: none | COMBINE: single task | FILTER: N/A | VALIDATE: ✗ No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 6,
+    "run": 1,
+    "question": "Will it rain tomorrow morning in the city?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: forecast for rain tomorrow morning | MAP: no service in catalog provides weather forecasts or precipitation data | CHAIN: none | COMBINE: single task | FILTER: N/A | VALIDATE: ✗ No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 7,
+    "run": 1,
+    "question": "Is there a water supply outage in zone Z-CENTRO?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: check for water supply outage in Z-CENTRO | MAP: scan catalog for water supply, utility, or outage endpoints | CHAIN: none | COMBINE: single task | FILTER: none | VALIDATE: No service in catalog provides water supply or outage data. Available services cover traffic, emergency units, bins, buildings, citizen reports, environment sensors, and charging stations. None match the query domain.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 8,
+    "run": 1,
+    "question": "Where is the closest ATM to the train station?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 9,
+    "run": 1,
+    "question": "What's the phone number of the city tax office?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: phone number of city tax office | MAP: no service in catalog provides contact details or phone numbers for city offices | CHAIN: none | COMBINE: single task | FILTER: N/A | VALIDATE: ✗ No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 10,
+    "run": 1,
+    "question": "Can you book me a table for two at a restaurant tonight?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 11,
+    "run": 1,
+    "question": "Where can I renew my passport in the city?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 12,
+    "run": 1,
+    "question": "How much does a monthly gym membership cost in town?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: cost of monthly gym membership | MAP: no service in catalog provides gym or membership data | CHAIN: none | COMBINE: single task | FILTER: N/A | VALIDATE: ✗ No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 13,
+    "run": 1,
+    "question": "What time does the post office on Via Roma close today?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find post office on Via Roma, get closing time | MAP: smart-buildings-mock / GET /building | CHAIN: none | COMBINE: single task | FILTER: address='Via Roma' (not supported as query param), buildingType='public' (not specific enough) | VALIDATE: ✗ The catalog for smart-buildings-mock does not support filtering by address string or specific building names like 'post office'. The only filters are zoneId, status, and buildingType. No service provides a way to search for a specific building by address or name. Therefore, the request cannot be fulfilled with the available services.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 14,
+    "run": 1,
+    "question": "Can you book me a doctor's appointment for tomorrow?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 15,
+    "run": 1,
+    "question": "How do I enroll my child in the local primary school?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: enrollment process for primary school | MAP: no service in catalog provides school enrollment or education management endpoints | CHAIN: none | COMBINE: single task | FILTER: N/A | VALIDATE: ✗ No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 16,
+    "run": 1,
+    "question": "Help me with the city",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 17,
+    "run": 1,
+    "question": "What should I do now?",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: user asks open-ended 'what should I do now' with no constraints or data requirements | MAP: no service in catalog provides recommendations or general advice | CHAIN: none | COMBINE: single task | FILTER: none | VALIDATE: no available service can fulfil this request",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 18,
+    "run": 1,
+    "question": "Can you sort this out for me?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 19,
+    "run": 1,
+    "question": "I need your help with something.",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 20,
+    "run": 1,
+    "question": "Can you take care of it?",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 21,
+    "run": 1,
+    "question": "Show me radiation sensors that have an alert active",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find sensors with alertActive=true | MAP: smart-environment-and-temperature-sensors-mock / GET /sensor | CHAIN: none | COMBINE: single task | FILTER: alertActive=true (catalog enum/bool) | VALIDATE: ✓",
+      "tasks": [
+        {
+          "endpoint": "http://mock-server:8080/rest/Smart+Environment+and+Temperature+Sensors+API/1.0/sensor?alertActive=true",
+          "input": "",
+          "operation": "GET",
+          "service_id": "smart-environment-and-temperature-sensors-mock",
+          "task_name": "get_sensors_with_alerts",
+          "url": "http://mock-server:8080/rest/Smart+Environment+and+Temperature+Sensors+API/1.0/sensor?alertActive=true",
+          "url_resolved": "http://mock-server:8080/rest/Smart+Environment+and+Temperature+Sensors+API/1.0/sensor?alertActive=true"
+        }
+      ]
+    }
+  },
+  {
+    "question_index": 22,
+    "run": 1,
+    "question": "Find helicopter public transport vehicles that are running late",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find public transport vehicles with vehicleType='helicopter' and status='delayed' | MAP: smart-public-transport-mock / GET /vehicle | CHAIN: none | COMBINE: single task | FILTER: vehicleType=helicopter (catalog enum check: bus,tram,metro,ferry — 'helicopter' not in enum) | VALIDATE: ✗ vehicleType 'helicopter' not in catalog enum [bus,tram,metro,ferry]. No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 23,
+    "run": 1,
+    "question": "Show emergency units that are both idle and responding at the same time",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find emergency units with status=idle AND status=responding | MAP: smart-emergency-services-mock / GET /emergency-unit | CHAIN: none | COMBINE: single task | FILTER: status=idle (one param) | VALIDATE: logical contradiction detected (status cannot be both idle and responding simultaneously); no service can return records matching mutually exclusive enum values; returning empty plan per constraint",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 24,
+    "run": 1,
+    "question": "Show parking spots with spotType 'underwater'",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: parking spots with spotType 'underwater' | MAP: smart-parking-mock / GET /parking-spot | CHAIN: none | COMBINE: single task | FILTER: spotType=underwater | VALIDATE: ✗ spotType 'underwater' is not in catalog enum (standard,disabled,electric,motorcycle,reserved); no service can fulfil this request",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 25,
+    "run": 1,
+    "question": "Show me all surveillance drones patrolling the city skies.",
+    "execution_plan": {
+      "reasoning": "No available service can fulfil this request.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 26,
+    "run": 1,
+    "question": "Find charging stations with a 'nuclear' power source.",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find charging stations with power source 'nuclear' | MAP: smart-charging-stations-mock / GET /charging-station | CHAIN: none | COMBINE: single task | FILTER: none (catalog has no powerSource field) | VALIDATE: ✗ No available service can fulfil this request. The catalog for smart-charging-stations-mock does not include a 'powerSource' field or parameter. The available fields are zoneId, location, available, connectors, activeConnectors, chargingSpeed, maxPowerKW, pricePerKWh, status, id. The query cannot be satisfied.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 27,
+    "run": 1,
+    "question": "List environmental sensors that measure the mood of citizens.",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: find sensors measuring 'mood' | MAP: smart-environment-and-temperature-sensors-mock / GET /sensor | CHAIN: none | COMBINE: single task | FILTER: sensorType=mood | VALIDATE: sensorType enum in catalog is (temperature,humidity,air_quality,noise,light,pressure,wind_speed). 'mood' is not a valid enum value. No service provides mood data. Request cannot be fulfilled.",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 28,
+    "run": 1,
+    "question": "Show me bins that are both empty and overflowing at the same time.",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: bins with status=empty AND status=overflowing | MAP: smart-bins-mock / GET /bin | CHAIN: none | COMBINE: single task | FILTER: status=overflowing (empty is not a valid enum in catalog) | VALIDATE: ✗ logical contradiction (empty vs overflowing) and 'empty' not in catalog enum; no service can return bins that are both states simultaneously",
+      "tasks": []
+    }
+  },
+  {
+    "question_index": 29,
+    "run": 1,
+    "question": "Register a new waste bin that was just installed downtown.",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: register a new waste bin in downtown (Z-CENTRO) | MAP: smart-bins-mock / POST /bin | CHAIN: none | COMBINE: single task | FILTER: none (POST requires full payload) | VALIDATE: ✓",
+      "tasks": [
+        {
+          "endpoint": "http://mock-server:8080/rest/Smart+Bins+API/1.0/bin",
+          "input": {
+            "binType": "general",
+            "fillLevel": 0,
+            "lastEmptied": "2025-09-25T10:00:00Z",
+            "location": "downtown",
+            "nextCollection": "2025-09-26T08:00:00Z",
+            "sensorBattery": 100,
+            "status": "normal",
+            "zoneId": "Z-CENTRO"
+          },
+          "operation": "POST",
+          "service_id": "smart-bins-mock",
+          "task_name": "register_new_bin",
+          "url": "http://mock-server:8080/rest/Smart+Bins+API/1.0/bin",
+          "url_resolved": "http://mock-server:8080/rest/Smart+Bins+API/1.0/bin"
+        }
+      ]
+    }
+  },
+  {
+    "question_index": 30,
+    "run": 1,
+    "question": "Add a new emergency unit that has just been commissioned.",
+    "execution_plan": {
+      "reasoning": "DECOMPOSE: register a new emergency unit | MAP: smart-emergency-services-mock / POST /emergency-unit | CHAIN: none | COMBINE: single task | FILTER: none (user provides no specific data, use catalog defaults for required fields) | VALIDATE: ✓",
+      "tasks": [
+        {
+          "endpoint": "http://mock-server:8080/rest/Smart+Emergency+Services+API/1.0/emergency-unit",
+          "input": {
+            "available": true,
+            "crewCount": 4,
+            "location": "City Hospital Main Entrance",
+            "status": "idle",
+            "type": "medical",
+            "vehicleCode": "MED-001",
+            "zoneId": "Z-CENTRO"
+          },
+          "operation": "POST",
+          "service_id": "smart-emergency-services-mock",
+          "task_name": "register_emergency_unit",
+          "url": "http://mock-server:8080/rest/Smart+Emergency+Services+API/1.0/emergency-unit",
+          "url_resolved": "http://mock-server:8080/rest/Smart+Emergency+Services+API/1.0/emergency-unit"
+        }
+      ]
+    }
+  }
+]

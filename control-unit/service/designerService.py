@@ -434,7 +434,7 @@ Classify and, if the category is OUT_OF_DOMAIN, design the missing service."""
                     "think":   False,
                     "options": {
                         "temperature": 0.2,    # leggera creativita' solo per il design
-                        "num_ctx":     8192,
+                        "num_ctx":     int(os.environ.get("DESIGNER_NUM_CTX", "16384")),
                     },
                     "stream":  False,
                 },

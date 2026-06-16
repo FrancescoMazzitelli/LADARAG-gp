@@ -76,38 +76,56 @@ for api_file in "$APIS_DIR"/*.yaml; do
     fi
   fi
 
-  # ── Patch TUTTI gli endpoint GET/POST/PUT/DELETE con il get-script ────────
-  # Itera su ogni path del YAML (esclusi /register e /health) e applica
-  # il dispatcher SCRIPT a tutti i metodi supportati.
+  # ── Patch dei dispatcher per operazione ──────────────────────────────────
+  # Il get-script (<servizio>-get.groovy) e' il dispatcher della GET di
+  # COLLEZIONE: instrada per query param (status, zoneId, type, ...) e in
+  # fallback ritorna un esempio specifico della lista (es. 'example_list').
+  # Va applicato SOLO alla GET di collezione. Applicarlo anche a
+  # POST/PUT/DELETE/GET-by-id (come faceva prima) fa si' che il fallback
+  # restituisca un nome di esempio inesistente su quelle operazioni
+  # (es. 'example_list' su una POST) -> HTTP 400 "response ... does not exist".
+  # Tutte le altre operazioni ricevono un dispatcher statico 'return mock'
+  # (l'esempio 'mock' e' presente su ogni risposta dopo fix_yaml.py).
+  MOCK_PAYLOAD=$(/tmp/jq -n \
+    --arg dispatcher "SCRIPT" \
+    --arg dispatcherRules "return 'mock'" \
+    '{dispatcher: $dispatcher, dispatcherRules: $dispatcherRules}')
+
+  GET_PAYLOAD=""
   if [ -f "$get_script" ]; then
     SCRIPT=$(cat "$get_script" | tr -d '\r')
-    PAYLOAD=$(/tmp/jq -n \
+    GET_PAYLOAD=$(/tmp/jq -n \
       --arg dispatcher "SCRIPT" \
       --arg dispatcherRules "$SCRIPT" \
       '{dispatcher: $dispatcher, dispatcherRules: $dispatcherRules}')
-
-    # Estrai tutti i path dal YAML (righe che iniziano con "  /")
-    grep "^  /[a-zA-Z{]" "$api_file" \
-      | grep -v "/health:\|/register:" \
-      | sed 's/^  //' | tr -d ':' | tr -d '\r' \
-      | while read -r path; do
-          # Per ogni path patcha GET, POST, PUT, DELETE, PATCH
-          for method in GET POST PUT DELETE PATCH; do
-            OP="${method} ${path}"
-            OP_ENC=$(printf '%s' "$OP" | /tmp/jq -sRr @uri)
-            if curl --fail-with-body -sS \
-                -X PUT "${MICROCKS_URL}/services/${service_id}/operation?operationName=${OP_ENC}" \
-                -H "Authorization: Bearer $TOKEN" \
-                -H "Content-Type: application/json" \
-                -d "$PAYLOAD" > /tmp/patch_op.json 2>&1; then
-              echo "✅ ${OP} → SCRIPT"
-            fi
-            # Silenzio sui 404 (operazione non esistente per quel metodo) — normale
-          done
-        done
-  else
-    echo "⚠️  No GET script for $service_name — skipping operation patch."
   fi
+
+  grep "^  /[a-zA-Z{]" "$api_file" \
+    | grep -v "/health:\|/register:" \
+    | sed 's/^  //' | tr -d ':' | tr -d '\r' \
+    | while read -r path; do
+        rel=${path#/}
+        case "$rel" in
+          */*) is_collection=no ;;
+          *)   is_collection=yes ;;
+        esac
+        for method in GET POST PUT DELETE PATCH; do
+          if [ "$method" = "GET" ] && [ "$is_collection" = "yes" ] && [ -n "$GET_PAYLOAD" ]; then
+            PAYLOAD="$GET_PAYLOAD"; label="get-script"
+          else
+            PAYLOAD="$MOCK_PAYLOAD"; label="mock"
+          fi
+          OP="${method} ${path}"
+          OP_ENC=$(printf '%s' "$OP" | /tmp/jq -sRr @uri)
+          if curl --fail-with-body -sS \
+              -X PUT "${MICROCKS_URL}/services/${service_id}/operation?operationName=${OP_ENC}" \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "$PAYLOAD" > /tmp/patch_op.json 2>&1; then
+            echo "✅ ${OP} → SCRIPT (${label})"
+          fi
+        done
+      done
 
   echo "-----------------------------------"
 done

@@ -3,18 +3,37 @@ import os
 import yaml
 
 
-def _transform_op(op):
+def _transform_op(op, path='', method=''):
     """Transform a single operation dict in-place:
     - response example: → examples: mock: value:
     - x-microcks-operation dispatcherRules → return "mock"
+    - inject a SCRIPT 'mock' dispatcher on operations that otherwise rely on
+      Microcks' default URI_PARTS matching (see end of function).
     """
     if not isinstance(op, dict):
         return
+
+    # True if the operation already has at least one 2xx response carrying a body.
+    # Used to decide whether a body-less 2xx (e.g. DELETE → 204) needs a synthetic
+    # mock: we only add one when NO 2xx response has content, so operations that
+    # already expose a mockable body (e.g. a 200 plus a 204) are left untouched.
+    _has_2xx_content = any(
+        str(c).startswith('2') and isinstance(r, dict) and r.get('content')
+        for c, r in op.get('responses', {}).items()
+    )
 
     # Only touch response content, not requestBody content.
     for _code, resp in op.get('responses', {}).items():
         if not isinstance(resp, dict):
             continue
+
+        # Body-less 2xx (e.g. DELETE → 204) gets an empty JSON mock so a SCRIPT
+        # dispatcher returning 'mock' always has a response to resolve to — but
+        # only when the operation has no other mockable 2xx body.
+        if (str(_code).startswith('2') and not resp.get('content')
+                and not _has_2xx_content):
+            resp['content'] = {'application/json': {'examples': {'mock': {'value': {}}}}}
+
         for _media, media_obj in resp.get('content', {}).items():
             if not isinstance(media_obj, dict):
                 continue
@@ -36,6 +55,22 @@ def _transform_op(op):
     if isinstance(microcks, dict) and microcks.get('dispatcher') == 'SCRIPT':
         if not microcks.get('dispatcherRules'):
             microcks['dispatcherRules'] = "return 'mock'"
+
+    # Force a deterministic mock for operations that otherwise rely on Microcks'
+    # default URI_PARTS matching: parametric GET/PUT/DELETE on /{id}, POST create,
+    # and zone-level PUT. Without this, a chained id that differs from the single
+    # baked example (e.g. GET /bin/3 vs the bin_1 example) fails to match and
+    # returns 404. A SCRIPT dispatcher that always returns 'mock' makes any id or
+    # body resolve to the 'mock' example with a 2xx status.
+    #   - GET list endpoints keep their FALLBACK/URI_PARAMS dispatcher (real
+    #     query-param filtering), so they are never overridden here.
+    #   - /health and /register are internal (liveness, mock registration) and
+    #     already work, so they are left untouched.
+    if path not in ('/health', '/register') and op.get('x-microcks-operation') is None:
+        op['x-microcks-operation'] = {
+            'dispatcher': 'SCRIPT',
+            'dispatcherRules': "return 'mock'",
+        }
 
 
 def _ensure_health_endpoint(data):
@@ -82,7 +117,7 @@ def transform_yaml(data):
         for method, op in path_obj.items():
             if method in ('parameters', 'summary', 'description', 'servers', '$ref'):
                 continue
-            _transform_op(op)
+            _transform_op(op, _path, method)
 
 
 def fix_yaml_dir(apis_dir):

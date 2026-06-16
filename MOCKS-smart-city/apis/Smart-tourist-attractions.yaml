@@ -1005,6 +1005,9 @@ paths:
                     status: open
                     lastUpdated: '2026-03-09T10:00:00Z'
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /attraction/{id}:
     get:
       description: Fetches the real-time details and telemetry of a specific tourist attraction using its unique ID.
@@ -1050,6 +1053,9 @@ paths:
                 mock: *id004
         '404':
           description: The specified attraction ID does not exist in the database.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Updates the real-time data of an attraction (e.g., visitor counts, wait times, or status).
       summary: Update tourist attraction by ID
@@ -1119,6 +1125,9 @@ paths:
                 mock: *id005
         '404':
           description: The specified attraction ID was not found.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Permanently removes a specific attraction from the tourism registry.
       summary: Delete tourist attraction by ID
@@ -1134,8 +1143,16 @@ paths:
       responses:
         '204':
           description: The attraction was successfully deleted.
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: The specified attraction ID was not found.
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /attraction/zone/{zoneId}/status:
     put:
       description: Dynamically update the operational status of all tourist attractions in a specific zone. Extremely useful for emergency evacuations, severe weather closures, or city-wide special events.
@@ -1183,6 +1200,9 @@ paths:
                 success: &id006
                   value: Zone attraction status updated
                 mock: *id006
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

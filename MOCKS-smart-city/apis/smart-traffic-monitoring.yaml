@@ -505,6 +505,9 @@ paths:
                     incidentDetected: false
                     lastUpdated: '2025-09-25T10:00:00Z'
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /traffic-sensor/{id}:
     get:
       description: Retrieve real-time traffic data from a specific sensor by ID.
@@ -542,6 +545,9 @@ paths:
                 mock: *id004
         '404':
           description: Traffic sensor not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the data of a specific traffic sensor by ID.
       summary: Update traffic sensor by ID
@@ -595,6 +601,9 @@ paths:
                 mock: *id005
         '404':
           description: Traffic sensor not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Remove a specific traffic monitoring sensor from the city registry.
       summary: Delete traffic sensor by ID
@@ -610,8 +619,16 @@ paths:
       responses:
         '204':
           description: Deleted successfully
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Traffic sensor not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /traffic-sensor/zone/{zoneId}/speed-limit:
     put:
       description: Dynamically enforce a new speed limit on digital road signs for an entire city zone. Use this to react to environmental hazards (high pollution, frost warning) or traffic congestion detected by sensors.
@@ -658,6 +675,9 @@ paths:
                 success: &id006
                   value: Zone speed limit updated
                 mock: *id006
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

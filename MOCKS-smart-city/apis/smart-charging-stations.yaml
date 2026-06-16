@@ -611,6 +611,9 @@ paths:
                     pricePerKWh: 0.75
                     status: operational
                 mock: *id003
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /charging-station/{id}:
     get:
       description: Retrieve the current status of a specific EV charging station by ID.
@@ -648,6 +651,9 @@ paths:
                 mock: *id004
         '404':
           description: Charging station not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     put:
       description: Update the status or configuration of a specific EV charging station by ID.
       summary: Update charging station details by ID
@@ -701,6 +707,9 @@ paths:
                 mock: *id005
         '404':
           description: Charging station not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
     delete:
       description: Permanently remove a specific charging station from the city registry.
       summary: Delete charging station by ID
@@ -716,8 +725,16 @@ paths:
       responses:
         '204':
           description: Charging station deleted
+          content:
+            application/json:
+              examples:
+                mock:
+                  value: {}
         '404':
           description: Charging station not found
+      x-microcks-operation:
+        dispatcher: SCRIPT
+        dispatcherRules: return 'mock'
   /register:
     post:
       description: Register this microservice with the central discovery system (Consul).

@@ -44,10 +44,10 @@ services:
       api-importer:
         condition: service_started
     volumes:
-      # - ./MOCKS-smart-city/apis:/apis
-      # - ./MOCKS-smart-city/scripts:/scripts
-      - ./Eval/service-mocks/apis:/apis
-      - ./Eval/service-mocks/scripts:/scripts
+      - ./MOCKS-smart-city/apis:/apis
+      - ./MOCKS-smart-city/scripts:/scripts
+      # - ./Eval/service-mocks/apis:/apis
+      # - ./Eval/service-mocks/scripts:/scripts
       - ./deploy.sh:/deploy.sh:ro
       - ./register.sh:/register.sh:ro
     entrypoint: sh
@@ -89,10 +89,10 @@ services:
     image: python:3.11-alpine
     container_name: yaml-preprocessor
     volumes:
-       # - ./MOCKS-smart-city/apis:/apis
-       # - ./MOCKS-smart-city/scripts:/scripts:ro
-      - ./Eval/service-mocks/apis:/apis
-      - ./Eval/service-mocks/scripts:/scripts:ro
+      - ./MOCKS-smart-city/apis:/apis
+      - ./MOCKS-smart-city/scripts:/scripts:ro
+      # - ./Eval/service-mocks/apis:/apis
+      # - ./Eval/service-mocks/scripts:/scripts:ro
     command:
       - sh
       - -c
@@ -181,10 +181,12 @@ services:
       - REGISTRY_URL=http://registry:8500
       - CATALOG_URL=http://catalog-gateway:5000
       - OLLAMA_API_URL=http://192.168.250.40:15888
-     # - LLM_MODEL=phi4:14b
+     #- LLM_MODEL=phi4:14b
       - MOCK_SERVER_URL=http://mock-server:8080
       - BACKEND_MODE=${BACKEND_MODE:-MOCK}
-      - API_AUTH_HEADERS = ${API_AUTH_HEADERS:-}
+      - API_AUTH_HEADERS=${API_AUTH_HEADERS:-}
+      - PLANNER_SYSTEM_PROMPT_PATH=/app/config/prompts/planner_system.md
+      - PLANNER_OUTPUT_SCHEMA_PATH=/app/config/schemas/plan_output.json
     stop_grace_period: 10s
     depends_on:
       mock-deployer:

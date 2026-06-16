@@ -1,0 +1,399 @@
+--- Query #1 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Where can I borrow a Roman history novel at the city library?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 67.05s
+
+--- Query #2 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Which pharmacies are open right now near the historic centre?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 71.63s
+
+--- Query #3 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Find me a hotel room under 100 euro for tonight
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 68.86s
+
+--- Query #4 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Where can I get a pizza near the Arco di Traiano right now?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 77.41s
+
+--- Query #5 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Is there any live music concert tonight in Benevento?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 73.69s
+
+--- Query #6 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Will it rain tomorrow morning in the city?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 74.90s
+
+--- Query #7 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Is there a water supply outage in zone Z-CENTRO?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 70.06s
+
+--- Query #8 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Where is the closest ATM to the train station?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 68.07s
+
+--- Query #9 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: What's the phone number of the city tax office?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 66.59s
+
+--- Query #10 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Can you book me a table for two at a restaurant tonight?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 70.58s
+
+--- Query #11 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Where can I renew my passport in the city?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 70.10s
+
+--- Query #12 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: How much does a monthly gym membership cost in town?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 73.09s
+
+--- Query #13 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: What time does the post office on Via Roma close today?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 72.68s
+
+--- Query #14 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: Can you book me a doctor's appointment for tomorrow?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 70.02s
+
+--- Query #15 [out-of-plan] [out-of-domain] 🔍OOP ---
+Q: How do I enroll my child in the local primary school?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 79.17s
+
+--- Query #16 [out-of-plan] [ambiguous] 🔍OOP ---
+Q: Help me with the city
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 59.46s
+
+--- Query #17 [out-of-plan] [ambiguous] 🔍OOP ---
+Q: What should I do now?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 62.02s
+
+--- Query #18 [out-of-plan] [ambiguous] 🔍OOP ---
+Q: Can you sort this out for me?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 58.55s
+
+--- Query #19 [out-of-plan] [ambiguous] 🔍OOP ---
+Q: I need your help with something.
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 53.99s
+
+--- Query #20 [out-of-plan] [ambiguous] 🔍OOP ---
+Q: Can you take care of it?
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 61.20s
+
+--- Query #21 [out-of-plan] [invalid] 🔍OOP ---
+Q: Show me radiation sensors that have an alert active
+Oracle: []
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=0 FN=1 F1=0.000
+    L1_plan: FAIL
+      - expected tasks=[], got len=1
+      - expected empty_plan_category='INVALID', got=''
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 52.96s
+
+--- Query #22 [out-of-plan] [invalid] 🔍OOP ---
+Q: Find helicopter public transport vehicles that are running late
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 61.65s
+
+--- Query #23 [out-of-plan] [invalid] 🔍OOP ---
+Q: Show emergency units that are both idle and responding at the same time
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 62.41s
+
+--- Query #24 [out-of-plan] [invalid] 🔍OOP ---
+Q: Show parking spots with spotType 'underwater'
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 61.66s
+
+--- Query #25 [out-of-plan] [invalid] 🔍OOP ---
+Q: Show me all surveillance drones patrolling the city skies.
+Oracle: []
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=0 FN=1 F1=0.000
+    L1_plan: FAIL
+      - expected empty_plan_category='INVALID', got='OUT_OF_DOMAIN'
+    L2_execution: FAIL
+      - expected INVALID → nessun contract atteso, got 1
+      - expected INVALID → nessun contract atteso, got 1
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 83.39s
+
+--- Query #26 [out-of-plan] [invalid] 🔍OOP ---
+Q: Find charging stations with a 'nuclear' power source.
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 64.11s
+
+--- Query #27 [out-of-plan] [invalid] 🔍OOP ---
+Q: List environmental sensors that measure the mood of citizens.
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 60.23s
+
+--- Query #28 [out-of-plan] [invalid] 🔍OOP ---
+Q: Show me bins that are both empty and overflowing at the same time.
+Oracle: []
+Esito: CORRECT
+
+  Run 1:
+    Final: CORRECT  TP=1 FP=0 FN=0 F1=1.000
+    L1_plan: PASS
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 61.59s
+
+--- Query #29 [out-of-plan] [invalid] 🔍OOP ---
+Q: Register a new waste bin that was just installed downtown.
+Oracle: []
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=0 FN=1 F1=0.000
+    L1_plan: FAIL
+      - expected tasks=[], got len=1
+      - expected empty_plan_category='INVALID', got=''
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 59.50s
+
+--- Query #30 [out-of-plan] [invalid] 🔍OOP ---
+Q: Add a new emergency unit that has just been commissioned.
+Oracle: []
+Esito: INCORRECT
+
+  Run 1:
+    Final: INCORRECT  TP=0 FP=0 FN=1 F1=0.000
+    L1_plan: FAIL
+      - expected tasks=[], got len=1
+      - expected empty_plan_category='INVALID', got=''
+    L2_execution: PASS
+    L3_chaining: SKIP
+    L4_schema: SKIP
+    Latency: 58.07s
+
